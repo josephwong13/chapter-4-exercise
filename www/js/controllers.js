@@ -245,6 +245,17 @@ angular.module('conFusion.controllers', [])
         favoriteFactory.deleteFromFavorites(index);
         $scope.shouldShowDelete = false;
         }
+
+        $scope.moveItem = function(item, fromIndex, toIndex) {
+    //Move the item in the array
+    $scope.favorites.splice(fromIndex, 1);
+    $scope.favorites.splice(toIndex, 0, item);
+        }
+
+        $scope.toggleReorder = function () {
+        $scope.shouldShowReorder = !$scope.shouldShowReorder;
+      }
+
       }])
 
         .filter('favoriteFilter', function () {

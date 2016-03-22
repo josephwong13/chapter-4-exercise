@@ -3,10 +3,12 @@
       <div class="buttons">
         <button class="button button-icon icon ion-ios-minus-outline"
           ng-click="toggleDelete()"></button>
+        <button class="button button-icon icon ion-funnel"
+          ng-click="toggleReorder()"></button>
       </div>
     </ion-nav-buttons>
   <ion-content>
-    <ion-list show-delete="shouldShowDelete">
+    <ion-list show-delete="shouldShowDelete" show-reorder="shouldShowReorder">
       <ion-item ng-repeat="dish in dishes | favoriteFilter:favorites" class= "item-avatar" href="#/app/menu/{{dish.id}}" on-swipe-left="deleteFavorite(dish.id)">
       <img ng-src="{{baseURL+dish.image}}">
         <h2>{{dish.name}}
@@ -16,8 +18,9 @@
             <p>{{dish.description}}</p>
           <ion-delete-button class="ion-minus-circled"
           ng-click="deleteFavorite(dish.id)">
-        </ion-delete-button>
-      </ion-option-button>
+          </ion-delete-button>
+          <ion-reorder-button class="ion-navicon" on-reorder="moveItem(dish, $fromIndex, $toIndex)">
+          </ion-reorder-button>
       </ion-item>
     </ion-list>
    <div class="tabs-striped tabs-color-royal">
