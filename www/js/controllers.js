@@ -67,7 +67,8 @@ angular.module('conFusion.controllers', [])
       $scope.closeReserve();
     }, 1000);
   };
-  
+
+
 })
 
 
@@ -155,7 +156,7 @@ angular.module('conFusion.controllers', [])
             };
         }])
 
-        .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory','favoriteFactory', 'baseURL','$ionicPopover', function($scope, $stateParams, menuFactory, favoriteFactory, baseURL,$ionicPopover) {
+        .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory','favoriteFactory', 'baseURL','$ionicPopover','$ionicModal', function($scope, $stateParams, menuFactory, favoriteFactory, baseURL,$ionicPopover,$ionicModal) {
 
             $scope.baseURL = baseURL;
             
@@ -189,31 +190,42 @@ angular.module('conFusion.controllers', [])
               favoriteFactory.addToFavorites(index);
               $scope.popover.hide();
             };
-            
-        }])
 
+              $ionicModal.fromTemplateUrl('templates/dish-comment.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.commentForm = modal;
+  });
 
-        .controller('DishCommentController', ['$scope', 'menuFactory', 'baseURL', function($scope,menuFactory,baseURL) {
+  $scope.closeComment = function() {
+    $scope.commentForm.hide();
+  };
 
-            $scope.baseURL = baseURL;
-            
+  // Open the reserve modal
+  $scope.openComment = function() {
+    $scope.commentForm.show();
+  };
+
             $scope.mycomment = {rating:5, comment:"", author:"", date:""};
             
             $scope.submitComment = function () {
+
+                console.log("success");
                 
                 $scope.mycomment.date = new Date().toISOString();
                 console.log($scope.mycomment);
                 
                 $scope.dish.comments.push($scope.mycomment);
-        menuFactory.getDishes().update({id:$scope.dish.id},$scope.dish);
+                menuFactory.getDishes().update({id:$scope.dish.id},$scope.dish);
                 
-                $scope.commentForm.$setPristine();
                 
                 $scope.mycomment = {rating:5, comment:"", author:"", date:""};
-            }
-        }])
+                $scope.closeComment();
+                $scope.popover.hide();
 
-        // implement the IndexController and About Controller here
+            }
+            
+        }])
 
         .controller('IndexController', ['$scope', 'menuFactory', 'corporateFactory', 'baseURL', function($scope, menuFactory, corporateFactory, baseURL) {
 
