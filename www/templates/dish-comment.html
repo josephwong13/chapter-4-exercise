@@ -6,23 +6,23 @@
     </div>
   </ion-header-bar>
   <ion-content ng-app="DishDetailController">
-    <form id="commentForm" name="commentForm" ng-submit="submitComment()">
+    <form id="commentForm" name="commentForm" ng-submit="submitComment()" novalidate>
       <div class="list">
         <label class="item item-input item-select">
           <div class="input-label">
             Rate this dish
           </div>
-          <select ng-model="mycomment.rating">
+          <select ng-model="mycomment.rating" required>
             <option ng-repeat="n in [1,2,3,4,5]" value="{{n}}">{{n}}</option>
           </select>
         </label>
         <label class="item item-input">
-          <input type="text" id="" placeholder="Name" ng-model="mycomment.author">
+          <input type="text" id="" placeholder="Name" ng-model="mycomment.author" required>
         </label>
         <label class="item item-input">
           <input type="text" id="" placeholder="Leave Your Comment Here" ng-model="mycomment.comment">
         </label>
-        <button class="button button-block button-positive" type="submit">
+        <button class="button button-block button-positive" type="submit" ng-disabled="commentForm.$invalid">
             Submit
         </button>
       </div>
